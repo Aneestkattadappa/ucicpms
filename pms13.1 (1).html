@@ -10,46 +10,7 @@
     import { getStorage, ref as sRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyBPUC13A6yT9BTJNfGUrJtBLcU9En-GXpM",
-      authDomain: "factory-monitoring-d3973.firebaseapp.com",
-      databaseURL: "https://factory-monitoring-d3973-default-rtdb.firebaseio.com",
-      projectId: "factory-monitoring-d3973",
-      storageBucket: "factory-monitoring-d3973.appspot.com",
-      messagingSenderId: "458187467314",
-      appId: "1:458187467314:web:3da140756ef1e9751daa2b",
-      measurementId: "G-DQSJ9WWT49"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const storage = getStorage(app);
-
-    const telegramToken = "8143416403:AAEyFkCj6tQket5l-7lAPZQZLmL21Wea_14";
-    let users = [];
-    let telegramEnabled = true;
-
-    let shortAudio = null;
-    let longAudio = null;
-
-    getDownloadURL(sRef(storage, 'short.mp3')).then(url => {
-      shortAudio = new Audio(url);
-    });
-    getDownloadURL(sRef(storage, 'long.mp3')).then(url => {
-      longAudio = new Audio(url);
-    });
-
-    const usersRef = ref(db, "telegram_users");
-    const state = {};
-    const lastUpdateTimes = {};
-    const lastSeenFormatted = {};
-
-    function sendTelegramAlert(message, isLong = false) {
-      if (!telegramEnabled) return;
-      users.forEach(user => {
-        fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: user.id, text: message })
+      stringify({ chat_id: user.id, text: message })
         });
       });
       if (isLong && longAudio) longAudio.play();
@@ -68,7 +29,7 @@
       let allOff = true;
       let inner = `<div>Factory Water Pump</div><div style="display:flex; gap:5px; justify-content:center; margin-top:10px;">`;
 
-      pumps.forEach((pump, i) => {
+      pumps.forEach((pu, i) => {
         const val = state[pump];
         const color = val === 1 ? "blue" : "red";
         if (val === 1) allOff = false;
